@@ -1,15 +1,15 @@
 // Required node_modules
 
-var hash = require('object-hash');
-var crypto = require('crypto');
+const hash = require('object-hash');
+const crypto = require('crypto');
 const NodeRSA = require('node-rsa');
 
 // Making the keys with Node-rsa
 
 const key = new NodeRSA({ b:512 });
 
-var pubKey = key.exportKey('public');
-var privKey = key.exportKey('private');
+const pubKey = key.exportKey('public');
+const privKey = key.exportKey('private');
 
 let publicKey = new NodeRSA(pubKey);
 let privateKey = new NodeRSA(privKey);
@@ -26,17 +26,17 @@ let privateKey = new NodeRSA(privKey);
 
 // Testruns through the functions
 
-var testobj1 = {name: "Harry"};
-var testobj2 = {name: "Barry"};
-var testobj3 = {elephant: 14};
+const testobj1 = {name: "Harry"};
+const testobj2 = {name: "Barry"};
+const testobj3 = {elephant: 14};
 
 console.log(testobj1);
 console.log(testobj2);
 console.log(testobj3);
 
-var testpacket1 = signObject(testobj1, privateKey);
-var testpacket2 = signObject(testobj2, privateKey);
-var testpacket3 = signObject(testobj3, privateKey);
+const testpacket1 = signObject(testobj1, privateKey);
+const testpacket2 = signObject(testobj2, privateKey);
+const testpacket3 = signObject(testobj3, privateKey);
 
 console.log(testpacket1 + "\n");
 console.log(testpacket2 + "\n");
@@ -56,7 +56,7 @@ console.log(verifyObject(testpacket3, testobj2, publicKey) + "\n");
  */
 
 function signObject(object, privkey) {
-    var unsigned = [hash(object), crypto.randomUUID()];
+    const unsigned = [hash(object), crypto.randomUUID()];
 
     return privkey.encryptPrivate(unsigned, 'base64');
 }
@@ -69,9 +69,9 @@ function signObject(object, privkey) {
  */
 
 function verifyObject(packet, object, pubkey) {
-    var objectHash = hash(object);
+    const objectHash = hash(object);
 
-    var decryptedHash = pubkey.decryptPublic(packet, 'json')[0];
+    const decryptedHash = pubkey.decryptPublic(packet, 'json')[0];
 
     console.log("UUID = " + pubkey.decryptPublic(packet, 'json')[1] + "\n");
 
